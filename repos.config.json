@@ -1,10 +1,12 @@
 {
   "repos": [
     { "owner": "WindowisPark", "repo": "Dividend1s", "displayName": "배당1초", "groupBy": "context" },
-    { "owner": "WindowisPark", "repo": "fitin", "displayName": "FitIn", "groupBy": "context" }
+    { "owner": "WindowisPark", "repo": "fitin", "displayName": "FitIn", "groupBy": "context" },
+    { "owner": "WindowisPark", "repo": "SpotPrice", "displayName": "SpotPrice", "groupBy": "context" },
+    { "owner": "WindowisPark", "repo": "lock-bench", "displayName": "LockBench", "groupBy": "context" }
   ],
   "defaults": {
-    "groupBy": "date",
+    "groupBy": "context",
     "language": "ko",
     "maxDiffLines": 500
   }

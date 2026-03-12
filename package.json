@@ -10,8 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate": "tsx scripts/pipeline.ts",
-    "generate:dry": "tsx scripts/pipeline.ts --dry-run"
+    "generate": "node --env-file=.env --import tsx/esm scripts/pipeline.ts",
+    "generate:dry": "node --env-file=.env --import tsx/esm scripts/pipeline.ts --dry-run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",

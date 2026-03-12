@@ -1,23 +1,196 @@
 {
-  "2026-03-08-Dividend1s-2026-03-08": {
+  "2026-03-07-Dividend1s-project-foundation": {
+    "shas": [
+      "0991c821417d8a408bede836f812b98e004612e0",
+      "8696ddebc288adfc32b1d45ff535f87f6ac8453c"
+    ],
+    "generatedAt": "2026-03-12T03:17:31.019Z"
+  },
+  "2026-02-24-Dividend1s-backend-core-implementation": {
+    "shas": [
+      "b07dadca401bc57cb3fdb8963c6d175d2c44103f"
+    ],
+    "generatedAt": "2026-03-12T03:18:08.891Z"
+  },
+  "2026-02-24-Dividend1s-pdf-parsing-service": {
+    "shas": [
+      "a1ae23f03ab75c542ccddf5637d6e19083b31f1c"
+    ],
+    "generatedAt": "2026-03-12T03:18:54.583Z"
+  },
+  "2026-03-07-Dividend1s-full-stack-mvp": {
+    "shas": [
+      "7104be2eaa4eaa55b68e382fee7508a04f5cbfe0"
+    ],
+    "generatedAt": "2026-03-12T03:19:34.001Z"
+  },
+  "2026-03-08-Dividend1s-ai-powered-parsing": {
     "shas": [
       "d2a9453bf964356422e627df7d52c51130da2cb3"
     ],
-    "generatedAt": "2026-03-12T02:26:16.245Z"
+    "generatedAt": "2026-03-12T03:20:10.854Z"
   },
-  "2026-03-07-Dividend1s-2026-03-07": {
+  "2026-02-23-fitin-performance-optimization": {
     "shas": [
-      "0991c821417d8a408bede836f812b98e004612e0",
-      "7104be2eaa4eaa55b68e382fee7508a04f5cbfe0"
+      "80e8e56ae3671454a682b69d18427b1c56323d74",
+      "a1c33c852920b2d892e4f00e158743c3b9eb1c99"
     ],
-    "generatedAt": "2026-03-12T02:27:06.424Z"
+    "generatedAt": "2026-03-12T03:20:53.666Z"
   },
-  "2026-02-24-Dividend1s-2026-02-24": {
+  "2026-02-23-fitin-api-standardization": {
     "shas": [
-      "8696ddebc288adfc32b1d45ff535f87f6ac8453c",
-      "a1ae23f03ab75c542ccddf5637d6e19083b31f1c",
-      "b07dadca401bc57cb3fdb8963c6d175d2c44103f"
+      "996d637bbeb7fcc3e7c6a609f4a0c145587646ae",
+      "c815ab66169683acd59e303aa8b23550b9904ebb"
     ],
-    "generatedAt": "2026-03-12T02:28:04.192Z"
+    "generatedAt": "2026-03-12T03:21:30.074Z"
+  },
+  "2026-02-19-fitin-architecture-refactoring": {
+    "shas": [
+      "0c989def62d7c1dc9cb6bd5172552162ce4171af",
+      "a38a1d0fc3ca0365ddad2f7bb1b8e90038a6e089"
+    ],
+    "generatedAt": "2026-03-12T03:22:03.844Z"
+  },
+  "2026-02-19-fitin-security-configuration": {
+    "shas": [
+      "89abe2a315411831acab615588090e2b5d680650"
+    ],
+    "generatedAt": "2026-03-12T03:22:32.573Z"
+  },
+  "2026-02-19-fitin-project-documentation": {
+    "shas": [
+      "61a9347d08c5db2673c1fd90b7d88ddbe4dada1e",
+      "b105041c5c5e7bdd5f27575a26d207bf5f46d158",
+      "f24c3720eaf60b915b6a5c0bb86bf313b06c8116"
+    ],
+    "generatedAt": "2026-03-12T03:23:16.923Z"
+  },
+  "2024-11-07-fitin-initial-development": {
+    "shas": [
+      "00fcedff57f7cce0ec944d972b1b60d317430baa",
+      "34ad0db1392e7575c3220036a2a7015bc99980f7",
+      "96be5ef1453fa12b9ab1aa27ba0d24e7284c8315",
+      "f2583d404b3219ac471c2e7492560f1d90c1e690",
+      "fe417e58616452155df039115bb43d67be8cdb7f"
+    ],
+    "generatedAt": "2026-03-12T03:24:00.344Z"
+  },
+  "2026-02-06-SpotPrice-hexagonal-architecture-setup": {
+    "shas": [
+      "3512f97c7d827ca6ff53cbd2e51a9406fd45ad1e",
+      "d4f9437999c2acca76dbaa506e0d91cb0ab66e7b",
+      "e3c10907048ec4e5410fad8404978c4be217e6c8"
+    ],
+    "generatedAt": "2026-03-12T03:27:09.266Z"
+  },
+  "2026-02-05-SpotPrice-domain-model-implementation": {
+    "shas": [
+      "547a8b86f7b522604969cb5b798683ad85ecf5a0",
+      "d72d25fe2bfffd2371fbc8ef4e149c1539a62faf"
+    ],
+    "generatedAt": "2026-03-12T03:27:52.479Z"
+  },
+  "2026-02-07-SpotPrice-offer-vertical-slice": {
+    "shas": [
+      "7bb900f6beb7c2cdce289737d236234459ec4aaa",
+      "b2c6ea23695b00646a51bbd5fc998cbebca5f2ea"
+    ],
+    "generatedAt": "2026-03-12T03:28:30.930Z"
+  },
+  "2026-02-06-SpotPrice-order-payment-vertical-slice": {
+    "shas": [
+      "8ec089aad2c5ff910aaba9cfc92a0102915703b1",
+      "ba877a977d4682596b36a5517b7c03ad5735d3d4",
+      "d08108d10ac0b586766d5f1e4f6d0f69107819c0"
+    ],
+    "generatedAt": "2026-03-12T03:29:14.652Z"
+  },
+  "2026-02-07-SpotPrice-error-handling-system": {
+    "shas": [
+      "92042739748fbfc2939f3e8185978d63444f039c"
+    ],
+    "generatedAt": "2026-03-12T03:29:45.184Z"
+  },
+  "2026-02-07-SpotPrice-authentication-authorization": {
+    "shas": [
+      "927306d57a9875cb9ded6a7f5148c1da9d8cd9ef"
+    ],
+    "generatedAt": "2026-03-12T03:30:20.537Z"
+  },
+  "2026-02-12-SpotPrice-audit-logging-system": {
+    "shas": [
+      "673191d287b3f33ebaa30dc7c743b79ce271a02d"
+    ],
+    "generatedAt": "2026-03-12T03:30:55.732Z"
+  },
+  "2026-02-12-SpotPrice-thymeleaf-web-ui": {
+    "shas": [
+      "c43d01a6b87a6a59deafcbd5edba6647e5eedadb"
+    ],
+    "generatedAt": "2026-03-12T03:31:28.938Z"
+  },
+  "2026-02-12-SpotPrice-project-documentation": {
+    "shas": [
+      "36827c9a29a4fe1842c6c29d8deaa4566da5f9cb",
+      "d520c39d414ef3dcf13631b015c51e3d963ce373",
+      "fcfd31411b5a7dbc2037d25deecd45591fa87f59"
+    ],
+    "generatedAt": "2026-03-12T03:32:07.354Z"
+  },
+  "2026-02-13-lock-bench-project-scaffolding": {
+    "shas": [
+      "b6d1c371bb4e00797943c760aba19df3fb068d63"
+    ],
+    "generatedAt": "2026-03-12T03:34:39.831Z"
+  },
+  "2026-02-14-lock-bench-concurrency-strategies": {
+    "shas": [
+      "8a39c9fc6ad080460a49049692058d3264fa37d3"
+    ],
+    "generatedAt": "2026-03-12T03:35:15.963Z"
+  },
+  "2026-02-14-lock-bench-matrix-testing": {
+    "shas": [
+      "fb3772348ebf97ffba04eb83a668b462b47a6f13"
+    ],
+    "generatedAt": "2026-03-12T03:35:45.942Z"
+  },
+  "2026-02-15-lock-bench-observability-metrics": {
+    "shas": [
+      "8cf00770a5e8b3a0d1765ff0f09325795a16a244"
+    ],
+    "generatedAt": "2026-03-12T03:36:24.321Z"
+  },
+  "2026-02-16-lock-bench-k6-automation": {
+    "shas": [
+      "2dfe4ec75d6a062d2a0181d744cc946bf2aeb616",
+      "3e5ea8b69f2065295b53af61922a1d572eb185e5"
+    ],
+    "generatedAt": "2026-03-12T03:37:02.307Z"
+  },
+  "2026-02-16-lock-bench-v1-completion": {
+    "shas": [
+      "27bee9fb6be73e59afa236761ee2cd891d1c506e"
+    ],
+    "generatedAt": "2026-03-12T03:37:39.250Z"
+  },
+  "2026-02-19-lock-bench-mysql-redis-system": {
+    "shas": [
+      "7a37fbbabbfb54b2074b401c6ce221a640ff2f44",
+      "bec2cff9b8e9f57f96d64b826f06b096c5735423"
+    ],
+    "generatedAt": "2026-03-12T03:38:22.036Z"
+  },
+  "2026-02-21-lock-bench-lock-bleed-analysis": {
+    "shas": [
+      "094e66770e4de4aad212fec698413c963ae49d6d"
+    ],
+    "generatedAt": "2026-03-12T03:39:05.654Z"
+  },
+  "2026-03-11-lock-bench-jfr-performance-analysis": {
+    "shas": [
+      "1e8a1500b24111ff399120531428720cf9d99fa7"
+    ],
+    "generatedAt": "2026-03-12T03:39:50.810Z"
   }
 }
