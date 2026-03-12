@@ -1,6 +1,8 @@
 name: Generate & Deploy
 
 on:
+  push:
+    branches: [master]
   workflow_dispatch:
     inputs:
       date_from:
@@ -28,6 +30,7 @@ concurrency:
 
 jobs:
   generate:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -69,16 +72,14 @@ jobs:
           git push
 
   deploy:
-    needs: generate
-    if: inputs.dry_run != 'true'
+    if: always() && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != 'true'))
+    needs: [generate]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
       - uses: actions/setup-node@v4
         with:
