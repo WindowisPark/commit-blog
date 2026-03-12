@@ -1,0 +1,43 @@
+---
+import RepoTag from './RepoTag.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  repo: string;
+  repoDisplayName?: string;
+  tags: string[];
+  slug: string;
+}
+
+const { title, description, pubDate, repo, repoDisplayName, tags, slug } = Astro.props;
+const formattedDate = pubDate.toLocaleDateString('ko-KR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="py-6 border-b border-border dark:border-border-dark last:border-b-0">
+  <div class="flex items-center gap-2 mb-2">
+    <RepoTag repo={repo} displayName={repoDisplayName} />
+    <time class="text-sm text-muted">{formattedDate}</time>
+  </div>
+  <a href={`/blog/${slug}`} class="group">
+    <h2 class="text-xl font-bold group-hover:text-primary mb-1">{title}</h2>
+    <p class="text-muted leading-relaxed">{description}</p>
+  </a>
+  {tags.length > 0 && (
+    <div class="flex gap-2 mt-3">
+      {tags.map((tag) => (
+        <a
+          href={`/tags/${tag}`}
+          class="text-xs text-muted hover:text-text dark:hover:text-text-dark"
+        >
+          #{tag}
+        </a>
+      ))}
+    </div>
+  )}
+</article>

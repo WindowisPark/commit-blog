@@ -1,0 +1,98 @@
+name: Generate & Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      date_from:
+        description: 'Start date (YYYY-MM-DD)'
+        required: false
+      date_to:
+        description: 'End date (YYYY-MM-DD)'
+        required: false
+      target_repo:
+        description: 'Target repo name (leave empty for all)'
+        required: false
+      dry_run:
+        description: 'Dry run (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate blog posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.date_from }}" ]; then
+            ARGS="$ARGS --from ${{ inputs.date_from }}"
+          fi
+          if [ -n "${{ inputs.date_to }}" ]; then
+            ARGS="$ARGS --to ${{ inputs.date_to }}"
+          fi
+          if [ -n "${{ inputs.target_repo }}" ]; then
+            ARGS="$ARGS --repo ${{ inputs.target_repo }}"
+          fi
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          npx tsx scripts/pipeline.ts $ARGS
+
+      - name: Commit generated posts
+        if: inputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/blog/ .generated-log.json
+          git diff --staged --quiet || git commit -m "chore: generate blog posts [skip ci]"
+          git push
+
+  deploy:
+    needs: generate
+    if: inputs.dry_run != 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

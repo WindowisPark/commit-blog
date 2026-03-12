@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RepoTag from '../../components/RepoTag.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('ko-KR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={`${post.data.title} | Commit Blog`} description={post.data.description}>
+  <article>
+    <header class="mb-8">
+      <div class="flex items-center gap-2 mb-3">
+        <RepoTag repo={post.data.repo} displayName={post.data.repoDisplayName} />
+        <time class="text-sm text-muted">{formattedDate}</time>
+      </div>
+      <h1 class="text-3xl font-bold mb-2">{post.data.title}</h1>
+      <p class="text-muted">{post.data.description}</p>
+      {post.data.tags.length > 0 && (
+        <div class="flex gap-2 mt-3">
+          {post.data.tags.map((tag: string) => (
+            <a
+              href={`/tags/${tag}`}
+              class="text-xs text-muted hover:text-text dark:hover:text-text-dark"
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {post.data.commits.length > 0 && (
+      <footer class="mt-12 pt-6 border-t border-border dark:border-border-dark">
+        <details class="text-sm text-muted">
+          <summary class="cursor-pointer hover:text-text dark:hover:text-text-dark">
+            관련 커밋 ({post.data.commits.length}개)
+          </summary>
+          <ul class="mt-2 space-y-1 font-mono text-xs">
+            {post.data.commits.map((sha: string) => (
+              <li>
+                <a
+                  href={`https://github.com/WindowisPark/${post.data.repo}/commit/${sha}`}
+                  class="hover:text-primary"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {sha.slice(0, 7)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </footer>
+    )}
+  </article>
+</BaseLayout>

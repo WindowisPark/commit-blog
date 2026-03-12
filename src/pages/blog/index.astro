@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const repos = [...new Set(posts.map((p) => p.data.repo))];
+---
+
+<BaseLayout title="글 목록 | Commit Blog">
+  <h1 class="text-3xl font-bold mb-2">글 목록</h1>
+  <p class="text-muted mb-6">총 {posts.length}개의 포스트</p>
+
+  {repos.length > 1 && (
+    <div class="flex gap-2 mb-6 flex-wrap">
+      <span class="text-sm text-muted py-1">필터:</span>
+      {repos.map((repo) => (
+        <a
+          href={`/tags/${repo}`}
+          class="text-xs px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-muted hover:text-text dark:hover:text-text-dark"
+        >
+          {repo}
+        </a>
+      ))}
+    </div>
+  )}
+
+  {posts.map((post) => (
+    <PostCard
+      title={post.data.title}
+      description={post.data.description}
+      pubDate={post.data.pubDate}
+      repo={post.data.repo}
+      repoDisplayName={post.data.repoDisplayName}
+      tags={post.data.tags}
+      slug={post.id}
+    />
+  ))}
+</BaseLayout>

@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  --color-primary: #3b82f6;
+  --color-bg: #ffffff;
+  --color-bg-dark: #0f172a;
+  --color-text: #1e293b;
+  --color-text-dark: #e2e8f0;
+  --color-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-border-dark: #334155;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-text antialiased;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      @apply bg-bg-dark text-text-dark;
+    }
+  }
+
+  article.prose h1,
+  article.prose h2,
+  article.prose h3 {
+    @apply font-bold mt-8 mb-4;
+  }
+
+  article.prose h1 { @apply text-2xl; }
+  article.prose h2 { @apply text-xl; }
+  article.prose h3 { @apply text-lg; }
+
+  article.prose p {
+    @apply my-4 leading-7;
+  }
+
+  article.prose ul,
+  article.prose ol {
+    @apply my-4 pl-6;
+  }
+
+  article.prose ul { @apply list-disc; }
+  article.prose ol { @apply list-decimal; }
+
+  article.prose li {
+    @apply my-1;
+  }
+
+  article.prose code {
+    @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    article.prose code {
+      @apply bg-gray-800;
+    }
+  }
+
+  article.prose pre {
+    @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    article.prose pre {
+      @apply bg-gray-800;
+    }
+  }
+
+  article.prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  article.prose a {
+    @apply text-primary underline;
+  }
+
+  article.prose blockquote {
+    @apply border-l-4 border-border pl-4 my-4 italic text-muted;
+  }
+}

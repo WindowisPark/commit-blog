@@ -9,9 +9,18 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate": "tsx scripts/pipeline.ts",
+    "generate:dry": "tsx scripts/pipeline.ts --dry-run"
   },
   "dependencies": {
-    "astro": "^6.0.3"
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@google/genai": "^1.44.0",
+    "@octokit/rest": "^22.0.1",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "^6.0.3",
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.21.0",
+    "zod": "^4.3.6"
   }
 }

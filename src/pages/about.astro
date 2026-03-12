@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="소개 | Commit Blog">
+  <article class="prose">
+    <h1>소개</h1>
+    <p>
+      이 블로그는 GitHub 커밋 기록을 기반으로 Claude AI가 자동 생성한 개발 블로그입니다.
+    </p>
+    <h2>어떻게 동작하나요?</h2>
+    <ul>
+      <li>여러 리포지토리의 커밋 기록을 GitHub API로 가져옵니다.</li>
+      <li>커밋들을 날짜별, PR별, 또는 브랜치별로 그룹핑합니다.</li>
+      <li>Claude API를 통해 커밋 로그와 diff를 분석하여 읽기 좋은 한국어 블로그 포스트를 생성합니다.</li>
+      <li>Astro로 정적 사이트를 빌드하여 GitHub Pages에 배포합니다.</li>
+    </ul>
+    <h2>기술 스택</h2>
+    <ul>
+      <li><strong>SSG</strong>: Astro + Tailwind CSS</li>
+      <li><strong>AI</strong>: Claude API (Anthropic)</li>
+      <li><strong>GitHub API</strong>: Octokit</li>
+      <li><strong>배포</strong>: GitHub Pages + Actions</li>
+    </ul>
+  </article>
+</BaseLayout>
