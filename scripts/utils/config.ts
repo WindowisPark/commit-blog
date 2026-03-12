@@ -6,12 +6,12 @@ const RepoSchema = z.object({
   owner: z.string(),
   repo: z.string(),
   displayName: z.string(),
-  groupBy: z.enum(['date', 'pr', 'branch']).optional(),
+  groupBy: z.enum(['date', 'pr', 'branch', 'context']).optional(),
   excludePaths: z.array(z.string()).optional(),
 });
 
 const DefaultsSchema = z.object({
-  groupBy: z.enum(['date', 'pr', 'branch']).default('date'),
+  groupBy: z.enum(['date', 'pr', 'branch', 'context']).default('date'),
   language: z.string().default('ko'),
   maxDiffLines: z.number().default(500),
 });

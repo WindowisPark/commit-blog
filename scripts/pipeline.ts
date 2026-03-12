@@ -1,6 +1,6 @@
 import { loadConfig, getRepoConfig } from './utils/config.js';
 import { fetchAllCommits } from './fetch-commits.js';
-import { groupCommits } from './group-commits.js';
+import { groupCommits, groupCommitsAsync } from './group-commits.js';
 import { generatePosts } from './generate-post.js';
 
 interface PipelineOptions {
@@ -77,7 +77,7 @@ async function main() {
     const groupBy = repoConfig.groupBy ?? config.defaults.groupBy;
 
     console.log(`\n[${repoCommits.repo}] Grouping by: ${groupBy}`);
-    const groups = groupCommits(repoCommits.commits, groupBy);
+    const groups = await groupCommitsAsync(repoCommits.commits, groupBy);
     console.log(`  → ${groups.length} groups\n`);
 
     // Generate posts

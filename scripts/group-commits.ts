@@ -1,5 +1,6 @@
 import type { CommitInfo } from './utils/github-client.js';
 import type { Config } from './utils/config.js';
+import { groupCommitsByContext } from './utils/claude-client.js';
 
 export interface CommitGroup {
   id: string;
@@ -22,6 +23,49 @@ export function groupCommits(
     default:
       return groupByDate(commits);
   }
+}
+
+export async function groupCommitsAsync(
+  commits: CommitInfo[],
+  strategy: 'date' | 'pr' | 'branch' | 'context',
+): Promise<CommitGroup[]> {
+  if (strategy === 'context') {
+    return groupByContext(commits);
+  }
+  return groupCommits(commits, strategy);
+}
+
+async function groupByContext(commits: CommitInfo[]): Promise<CommitGroup[]> {
+  const summaries = commits.map((c) => ({
+    sha: c.sha,
+    message: c.message,
+    files: c.files.map((f) => f.filename),
+  }));
+
+  const contextGroups = await groupCommitsByContext(summaries);
+
+  const commitMap = new Map(commits.map((c) => [c.sha, c]));
+
+  return contextGroups.map((group) => {
+    const groupCommits = group.commitShas
+      .map((sha) => {
+        // Match by full sha or prefix
+        return commitMap.get(sha) ?? [...commitMap.values()].find((c) => c.sha.startsWith(sha));
+      })
+      .filter((c): c is CommitInfo => c !== undefined);
+
+    const latestDate = groupCommits
+      .map((c) => c.date)
+      .sort()
+      .reverse()[0] ?? new Date().toISOString();
+
+    return {
+      id: group.id,
+      label: group.label,
+      date: latestDate.slice(0, 10),
+      commits: groupCommits,
+    };
+  }).filter((g) => g.commits.length > 0);
 }
 
 function groupByDate(commits: CommitInfo[]): CommitGroup[] {

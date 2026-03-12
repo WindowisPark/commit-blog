@@ -4,15 +4,17 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  wide?: boolean;
 }
 
-const { title, description = '커밋 기록에서 자동 생성된 개발 블로그' } = Astro.props;
+const { title, description = '커밋 기록에서 자동 생성된 개발 블로그', wide = false } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
 ---
 
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
@@ -26,16 +28,16 @@ const { title, description = '커밋 기록에서 자동 생성된 개발 블로
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-border dark:border-border-dark">
       <nav class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="/" class="text-lg font-bold">Commit Blog</a>
+        <a href={base} class="text-lg font-bold">Commit Blog</a>
         <div class="flex gap-4 text-sm text-muted">
-          <a href="/" class="hover:text-text dark:hover:text-text-dark">홈</a>
-          <a href="/blog" class="hover:text-text dark:hover:text-text-dark">글 목록</a>
-          <a href="/about" class="hover:text-text dark:hover:text-text-dark">소개</a>
+          <a href={base} class="hover:text-text dark:hover:text-text-dark">홈</a>
+          <a href={`${base}blog`} class="hover:text-text dark:hover:text-text-dark">글 목록</a>
+          <a href={`${base}about`} class="hover:text-text dark:hover:text-text-dark">소개</a>
         </div>
       </nav>
     </header>
 
-    <main class="flex-1 max-w-3xl mx-auto px-4 py-8 w-full">
+    <main class={`flex-1 mx-auto px-4 py-8 w-full ${wide ? 'max-w-5xl' : 'max-w-3xl'}`}>
       <slot />
     </main>
 

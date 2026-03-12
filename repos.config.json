@@ -1,7 +1,7 @@
 {
   "repos": [
-    { "owner": "WindowisPark", "repo": "Dividend1s", "displayName": "배당1초", "groupBy": "date" },
-    { "owner": "WindowisPark", "repo": "fitin", "displayName": "FitIn", "groupBy": "date" }
+    { "owner": "WindowisPark", "repo": "Dividend1s", "displayName": "배당1초", "groupBy": "context" },
+    { "owner": "WindowisPark", "repo": "fitin", "displayName": "FitIn", "groupBy": "context" }
   ],
   "defaults": {
     "groupBy": "date",

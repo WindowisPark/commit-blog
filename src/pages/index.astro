@@ -7,36 +7,60 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const recentPosts = posts.slice(0, 10);
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+
+// Group by repo for display
+const repoMap = new Map<string, { displayName: string; posts: typeof posts }>();
+for (const post of posts) {
+  const repo = post.data.repo;
+  if (!repoMap.has(repo)) {
+    repoMap.set(repo, { displayName: post.data.repoDisplayName ?? repo, posts: [] });
+  }
+  repoMap.get(repo)!.posts.push(post);
+}
+const repoEntries = [...repoMap.entries()];
+
+const repoColors: Record<string, string> = {
+  'Dividend1s': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  'fitin': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+};
+const defaultColor = 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
 ---
 
 <BaseLayout title="Commit Blog">
-  <section class="mb-8">
+  <section class="mb-10">
     <h1 class="text-3xl font-bold mb-2">Commit Blog</h1>
     <p class="text-muted">커밋 기록에서 자동 생성된 개발 블로그입니다.</p>
   </section>
 
-  <section>
-    {recentPosts.length === 0 ? (
-      <p class="text-muted py-8">아직 포스트가 없습니다. 파이프라인을 실행해 보세요.</p>
-    ) : (
-      recentPosts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          repo={post.data.repo}
-          repoDisplayName={post.data.repoDisplayName}
-          tags={post.data.tags}
-          slug={post.id}
-        />
-      ))
-    )}
-  </section>
-
-  {posts.length > 10 && (
-    <div class="mt-8 text-center">
-      <a href="/blog" class="text-primary hover:underline">모든 글 보기 →</a>
-    </div>
+  {posts.length === 0 ? (
+    <p class="text-muted py-8">아직 포스트가 없습니다. 파이프라인을 실행해 보세요.</p>
+  ) : (
+    repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
+      <section class="mb-10">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-border dark:border-border-dark">
+          <div class="flex items-center gap-3">
+            <span class={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${repoColors[repo] ?? defaultColor}`}>
+              {displayName}
+            </span>
+            <span class="text-sm text-muted">{repoPosts.length}개의 포스트</span>
+          </div>
+          <a href={`${base}blog#${repo}`} class="text-sm text-primary hover:underline">
+            전체 보기 →
+          </a>
+        </div>
+        {repoPosts.slice(0, 3).map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            repo={post.data.repo}
+            repoDisplayName={post.data.repoDisplayName}
+            tags={post.data.tags}
+            slug={post.id}
+          />
+        ))}
+      </section>
+    ))
   )}
 </BaseLayout>

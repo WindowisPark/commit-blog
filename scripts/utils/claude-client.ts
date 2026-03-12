@@ -9,6 +9,77 @@ function getClient(): Anthropic {
   return _client;
 }
 
+export interface ContextGroup {
+  id: string;
+  label: string;
+  commitShas: string[];
+}
+
+export async function groupCommitsByContext(
+  commitSummaries: { sha: string; message: string; files: string[] }[],
+  retries = 2,
+): Promise<ContextGroup[]> {
+  const client = getClient();
+
+  const summaryText = commitSummaries
+    .map((c) => `- ${c.sha.slice(0, 7)}: ${c.message}\n  files: ${c.files.join(', ')}`)
+    .join('\n');
+
+  const systemPrompt = `당신은 소프트웨어 개발 커밋을 분석하는 전문가입니다.
+주어진 커밋 목록을 포트폴리오 관점에서 의미 있는 주제/맥락별로 그룹핑하세요.
+
+규칙:
+- 포트폴리오에 올릴 만한 의미 있는 단위로 묶기
+- 너무 작은 그룹(1-2 커밋)은 가까운 맥락의 그룹에 합치기
+- 그룹 라벨은 블로그 포스트 제목이 될 수 있는 수준으로 (한국어)
+- id는 영문 kebab-case (예: "auth-system", "pdf-parser")
+
+응답 형식 (반드시 이 JSON 형식으로):
+{
+  "groups": [
+    { "id": "feature-name", "label": "기능 설명", "commitShas": ["sha1", "sha2"] }
+  ]
+}`;
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await client.messages.create({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2048,
+        system: systemPrompt,
+        messages: [
+          {
+            role: 'user',
+            content: `다음 커밋들을 맥락별로 그룹핑해 주세요:\n\n${summaryText}`,
+          },
+        ],
+      });
+
+      const text = response.content
+        .filter((block): block is Anthropic.TextBlock => block.type === 'text')
+        .map((block) => block.text)
+        .join('');
+
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('No JSON found in response');
+
+      const parsed = JSON.parse(jsonMatch[0]) as { groups: ContextGroup[] };
+
+      console.log(
+        `  [Claude Grouping] Tokens: input=${response.usage.input_tokens}, output=${response.usage.output_tokens}`,
+      );
+
+      return parsed.groups;
+    } catch (err) {
+      if (attempt === retries) throw err;
+      console.warn(`  [Claude Grouping] Retry ${attempt + 1}/${retries}:`, (err as Error).message);
+      await new Promise((r) => setTimeout(r, 1000 * (attempt + 1)));
+    }
+  }
+
+  throw new Error('Unreachable');
+}
+
 export interface GeneratedPost {
   title: string;
   description: string;
