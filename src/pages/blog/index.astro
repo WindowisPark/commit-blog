@@ -7,8 +7,6 @@ const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
-
 // Group posts by repo, preserving order
 const repoMap = new Map<string, { displayName: string; posts: typeof posts }>();
 for (const post of posts) {
@@ -29,78 +27,65 @@ const repoColors: Record<string, string> = {
 const defaultColor = 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-700';
 ---
 
-<BaseLayout title="글 목록 | Commit Blog" wide>
-  <div class="flex flex-col md:flex-row gap-8">
-    <!-- Sidebar -->
-    <aside class="md:w-56 shrink-0">
-      <div class="md:sticky md:top-8">
-        <h2 class="text-sm font-semibold text-muted uppercase tracking-wider mb-3">프로젝트</h2>
-        <nav class="flex flex-row md:flex-col gap-2">
-          <a
-            href="#all"
-            class="sidebar-link text-sm px-3 py-2 rounded-lg border border-border dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-            data-repo="all"
-          >
-            전체 <span class="text-muted text-xs">({posts.length})</span>
-          </a>
-          {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
-            <a
-              href={`#${repo}`}
-              class={`sidebar-link text-sm px-3 py-2 rounded-lg border transition-colors ${repoColors[repo] ?? defaultColor}`}
-              data-repo={repo}
-            >
-              {displayName} <span class="opacity-60 text-xs">({repoPosts.length})</span>
-            </a>
-          ))}
-        </nav>
-      </div>
-    </aside>
-
-    <!-- Main content -->
-    <div class="flex-1 min-w-0">
-      <div class="mb-6">
-        <h1 class="text-3xl font-bold mb-2">글 목록</h1>
-        <p class="text-muted">총 {posts.length}개의 포스트</p>
-      </div>
-
-      {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
-        <section id={repo} class="repo-section mb-10" data-repo={repo}>
-          <div class="flex items-center gap-3 mb-4 pb-2 border-b border-border dark:border-border-dark">
-            <span class={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${(repoColors[repo] ?? defaultColor).split(' border')[0]}`}>
-              {displayName}
-            </span>
-            <span class="text-sm text-muted">{repoPosts.length}개의 포스트</span>
-          </div>
-          {repoPosts.map((post) => (
-            <PostCard
-              title={post.data.title}
-              description={post.data.description}
-              pubDate={post.data.pubDate}
-              repo={post.data.repo}
-              repoDisplayName={post.data.repoDisplayName}
-              tags={post.data.tags}
-              slug={post.id}
-            />
-          ))}
-        </section>
-      ))}
-    </div>
+<BaseLayout title="글 목록 | Commit Blog">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold mb-2">글 목록</h1>
+    <p class="text-muted">총 {posts.length}개의 포스트</p>
   </div>
+
+  <!-- Tab filter bar -->
+  <nav class="flex flex-wrap gap-2 mb-8">
+    <button
+      class="tab-filter text-sm px-3 py-1.5 rounded-lg border border-border dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ring-2 ring-primary"
+      data-repo="all"
+    >
+      전체 <span class="text-muted text-xs">({posts.length})</span>
+    </button>
+    {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
+      <button
+        class={`tab-filter text-sm px-3 py-1.5 rounded-lg border transition-colors ${repoColors[repo] ?? defaultColor}`}
+        data-repo={repo}
+      >
+        {displayName} <span class="opacity-60 text-xs">({repoPosts.length})</span>
+      </button>
+    ))}
+  </nav>
+
+  {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
+    <section id={repo} class="repo-section mb-10" data-repo={repo}>
+      <div class="flex items-center gap-3 mb-4 pb-2 border-b border-border dark:border-border-dark">
+        <span class={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${(repoColors[repo] ?? defaultColor).split(' border')[0]}`}>
+          {displayName}
+        </span>
+        <span class="text-sm text-muted">{repoPosts.length}개의 포스트</span>
+      </div>
+      {repoPosts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          repo={post.data.repo}
+          repoDisplayName={post.data.repoDisplayName}
+          tags={post.data.tags}
+          slug={post.id}
+        />
+      ))}
+    </section>
+  ))}
 </BaseLayout>
 
 <script>
-  function initSidebar() {
-    const links = document.querySelectorAll<HTMLAnchorElement>('.sidebar-link');
+  function initTabFilter() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.tab-filter');
     const sections = document.querySelectorAll<HTMLElement>('.repo-section');
 
-    links.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const repo = link.dataset.repo;
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const repo = tab.dataset.repo;
 
         // Update active state
-        links.forEach((l) => l.classList.remove('ring-2', 'ring-primary'));
-        link.classList.add('ring-2', 'ring-primary');
+        tabs.forEach((t) => t.classList.remove('ring-2', 'ring-primary'));
+        tab.classList.add('ring-2', 'ring-primary');
 
         if (repo === 'all') {
           sections.forEach((s) => s.style.display = '');
@@ -112,6 +97,6 @@ const defaultColor = 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-
       });
     });
   }
-  initSidebar();
-  document.addEventListener('astro:after-swap', initSidebar);
+  initTabFilter();
+  document.addEventListener('astro:after-swap', initTabFilter);
 </script>

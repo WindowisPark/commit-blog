@@ -28,61 +28,61 @@
     }
   }
 
-  article.prose h1,
-  article.prose h2,
-  article.prose h3 {
+  .prose h1,
+  .prose h2,
+  .prose h3 {
     @apply font-bold mt-8 mb-4;
   }
 
-  article.prose h1 { @apply text-2xl; }
-  article.prose h2 { @apply text-xl; }
-  article.prose h3 { @apply text-lg; }
+  .prose h1 { @apply text-2xl; }
+  .prose h2 { @apply text-xl; }
+  .prose h3 { @apply text-lg; }
 
-  article.prose p {
+  .prose p {
     @apply my-4 leading-7;
   }
 
-  article.prose ul,
-  article.prose ol {
+  .prose ul,
+  .prose ol {
     @apply my-4 pl-6;
   }
 
-  article.prose ul { @apply list-disc; }
-  article.prose ol { @apply list-decimal; }
+  .prose ul { @apply list-disc; }
+  .prose ol { @apply list-decimal; }
 
-  article.prose li {
+  .prose li {
     @apply my-1;
   }
 
-  article.prose code {
+  .prose code {
     @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm;
   }
 
   @media (prefers-color-scheme: dark) {
-    article.prose code {
+    .prose code {
       @apply bg-gray-800;
     }
   }
 
-  article.prose pre {
+  .prose pre {
     @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4;
   }
 
   @media (prefers-color-scheme: dark) {
-    article.prose pre {
+    .prose pre {
       @apply bg-gray-800;
     }
   }
 
-  article.prose pre code {
+  .prose pre code {
     @apply bg-transparent p-0;
   }
 
-  article.prose a {
+  .prose a {
     @apply text-primary underline;
   }
 
-  article.prose blockquote {
+  .prose blockquote {
     @apply border-l-4 border-border pl-4 my-4 italic text-muted;
   }
 }
