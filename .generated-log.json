@@ -192,5 +192,19 @@
       "1e8a1500b24111ff399120531428720cf9d99fa7"
     ],
     "generatedAt": "2026-03-12T03:39:50.810Z"
+  },
+  "2026-03-16-lock-bench-v2-closeout": {
+    "shas": [
+      "ccd874a1e81c2dbcf34c95b44d5ab8064f5c3809",
+      "09e7493e0a0850152a1b7f41d060e580b62db12c",
+      "aec48097e1be93b0e9f6699e53da6b5841fc9453"
+    ],
+    "generatedAt": "2026-03-17T00:00:00.000Z"
+  },
+  "2026-03-16-lock-bench-v3-concurrency-threshold": {
+    "shas": [
+      "077fb7ab1c4dcd6442e98c7a9e99ce74a4b2bdbc"
+    ],
+    "generatedAt": "2026-03-17T00:00:00.000Z"
   }
 }
