@@ -1,76 +1,88 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-  --color-primary: #3b82f6;
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+
+  --color-accent: #6366f1;
+  --color-accent-dark: #818cf8;
+
   --color-bg: #ffffff;
-  --color-bg-dark: #0f172a;
-  --color-text: #1e293b;
-  --color-text-dark: #e2e8f0;
-  --color-muted: #64748b;
-  --color-border: #e2e8f0;
-  --color-border-dark: #334155;
+  --color-bg-subtle: #fafafa;
+  --color-bg-dark: #0a0a0a;
+  --color-bg-dark-subtle: #141414;
+
+  --color-text: #171717;
+  --color-text-dark: #ededed;
+
+  --color-muted: #737373;
+  --color-muted-dark: #a3a3a3;
+
+  --color-border: #e5e5e5;
+  --color-border-dark: #262626;
 }
 
 @layer base {
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-bg text-text antialiased;
+    @apply bg-bg text-text;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   @media (prefers-color-scheme: dark) {
     body {
-      @apply bg-bg-dark text-text-dark;
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-dark);
     }
   }
 
-  .prose h1,
-  .prose h2,
-  .prose h3 {
-    @apply font-bold mt-8 mb-4;
-  }
-
-  .prose h1 { @apply text-2xl; }
-  .prose h2 { @apply text-xl; }
-  .prose h3 { @apply text-lg; }
+  .prose h1 { @apply text-3xl font-bold mt-12 mb-6 tracking-tight; }
+  .prose h2 { @apply text-2xl font-semibold mt-10 mb-4 tracking-tight; }
+  .prose h3 { @apply text-xl font-semibold mt-8 mb-3; }
 
   .prose p {
-    @apply my-4 leading-7;
+    @apply my-5 leading-[1.8] text-base;
   }
 
   .prose ul,
   .prose ol {
-    @apply my-4 pl-6;
+    @apply my-5 pl-6;
   }
 
   .prose ul { @apply list-disc; }
   .prose ol { @apply list-decimal; }
 
   .prose li {
-    @apply my-1;
+    @apply my-2 leading-[1.7];
   }
 
   .prose code {
-    @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm;
+    @apply px-1.5 py-0.5 rounded text-[0.875em] font-mono;
+    background-color: var(--color-bg-subtle);
   }
 
   @media (prefers-color-scheme: dark) {
     .prose code {
-      @apply bg-gray-800;
+      background-color: var(--color-bg-dark-subtle);
     }
   }
 
   .prose pre {
-    @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+    @apply p-5 rounded-lg overflow-x-auto my-6 text-sm leading-relaxed font-mono border;
+    background-color: var(--color-bg-subtle);
+    border-color: var(--color-border);
   }
 
   @media (prefers-color-scheme: dark) {
     .prose pre {
-      @apply bg-gray-800;
+      background-color: var(--color-bg-dark-subtle);
+      border-color: var(--color-border-dark);
     }
   }
 
@@ -79,10 +91,32 @@
   }
 
   .prose a {
-    @apply text-primary underline;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .prose a:hover {
+    text-decoration: underline;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .prose a {
+      color: var(--color-accent-dark);
+    }
   }
 
   .prose blockquote {
-    @apply border-l-4 border-border pl-4 my-4 italic text-muted;
+    @apply border-l-2 pl-5 my-6;
+    border-color: var(--color-border);
+    color: var(--color-muted);
+    font-style: normal;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .prose blockquote {
+      border-color: var(--color-border-dark);
+      color: var(--color-muted-dark);
+    }
   }
 }

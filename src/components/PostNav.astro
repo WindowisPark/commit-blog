@@ -14,12 +14,14 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 ---
 
 {(prevPost || nextPost) && (
-  <nav class="flex justify-between gap-4 mt-8 pt-6 border-t border-border dark:border-border-dark text-sm">
+  <nav class="flex justify-between gap-8 mt-16 pt-8 border-t border-border dark:border-border-dark">
     <div class="flex-1 min-w-0">
       {prevPost && (
         <a href={`${base}blog/${prevPost.slug}`} class="group block">
-          <span class="text-muted text-xs">← 이전 글</span>
-          <p class="truncate text-text dark:text-text-dark group-hover:text-primary transition-colors">
+          <span class="text-xs text-muted dark:text-muted-dark uppercase tracking-widest">이전</span>
+          <p class="mt-1 text-sm truncate text-text dark:text-text-dark
+                     group-hover:text-accent dark:group-hover:text-accent-dark transition-colors">
+            <span class="inline-block transition-transform group-hover:-translate-x-1">←</span>
             {prevPost.title}
           </p>
         </a>
@@ -28,9 +30,11 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     <div class="flex-1 min-w-0 text-right">
       {nextPost && (
         <a href={`${base}blog/${nextPost.slug}`} class="group block">
-          <span class="text-muted text-xs">다음 글 →</span>
-          <p class="truncate text-text dark:text-text-dark group-hover:text-primary transition-colors">
+          <span class="text-xs text-muted dark:text-muted-dark uppercase tracking-widest">다음</span>
+          <p class="mt-1 text-sm truncate text-text dark:text-text-dark
+                     group-hover:text-accent dark:group-hover:text-accent-dark transition-colors">
             {nextPost.title}
+            <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
           </p>
         </a>
       )}

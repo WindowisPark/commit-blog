@@ -6,16 +6,21 @@ interface Props {
 
 const { repo, displayName } = Astro.props;
 
-const colors: Record<string, string> = {
-  'Dividend1s': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  'fitin': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  'SpotPrice': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  'lock-bench': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+const dotColors: Record<string, string> = {
+  'Dividend1s': 'bg-blue-500',
+  'fitin': 'bg-emerald-500',
+  'SpotPrice': 'bg-amber-500',
+  'lock-bench': 'bg-violet-500',
+  'jobmate': 'bg-rose-500',
+  'kbo-prediction': 'bg-cyan-500',
 };
 
-const colorClass = colors[repo] ?? 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200';
+const dotColor = dotColors[repo] ?? 'bg-gray-400';
 ---
 
-<span class={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${colorClass}`}>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium
+             bg-bg-subtle text-muted dark:bg-bg-dark-subtle dark:text-muted-dark
+             border border-border dark:border-border-dark">
+  <span class={`w-1.5 h-1.5 rounded-full ${dotColor}`}></span>
   {displayName ?? repo}
 </span>

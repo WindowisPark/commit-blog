@@ -25,25 +25,30 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col">
-    <header class="border-b border-border dark:border-border-dark">
-      <nav class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-        <a href={base} class="text-lg font-bold">Commit Blog</a>
-        <div class="flex gap-4 text-sm text-muted">
-          <a href={base} class="hover:text-text dark:hover:text-text-dark">홈</a>
-          <a href={`${base}blog`} class="hover:text-text dark:hover:text-text-dark">글 목록</a>
-          <a href={`${base}about`} class="hover:text-text dark:hover:text-text-dark">소개</a>
-          <a href="https://windowispark.github.io/" target="_blank" rel="noopener noreferrer" class="hover:text-text dark:hover:text-text-dark">포트폴리오 ↗</a>
+    <header>
+      <nav class="max-w-2xl mx-auto px-6 py-6 flex items-center justify-between">
+        <a href={base} class="text-base font-semibold tracking-tight hover:opacity-70 transition-opacity">
+          Commit Blog
+        </a>
+        <div class="flex gap-6 text-sm text-muted dark:text-muted-dark">
+          <a href={base} class="hover:text-text dark:hover:text-text-dark transition-colors">홈</a>
+          <a href={`${base}blog`} class="hover:text-text dark:hover:text-text-dark transition-colors">글 목록</a>
+          <a href={`${base}about`} class="hover:text-text dark:hover:text-text-dark transition-colors">소개</a>
+          <a href="https://windowispark.github.io/" target="_blank" rel="noopener noreferrer"
+             class="hover:text-text dark:hover:text-text-dark transition-colors">
+            포트폴리오 <span class="inline-block text-[10px] opacity-50">↗</span>
+          </a>
         </div>
       </nav>
     </header>
 
-    <main class="flex-1 mx-auto px-4 py-8 w-full max-w-3xl">
+    <main class="flex-1 mx-auto px-6 py-16 w-full max-w-2xl">
       <slot />
     </main>
 
-    <footer class="border-t border-border dark:border-border-dark">
-      <div class="max-w-3xl mx-auto px-4 py-6 text-sm text-muted text-center">
-        커밋 기록에서 자동 생성된 블로그 &middot; Powered by Astro & Claude
+    <footer>
+      <div class="max-w-2xl mx-auto px-6 py-8 text-xs text-muted dark:text-muted-dark text-center tracking-wide">
+        Powered by Astro & Claude
       </div>
     </footer>
   </body>

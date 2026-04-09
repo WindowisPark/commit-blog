@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import RepoTag from '../../components/RepoTag.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-// Group posts by repo, preserving order
 const repoMap = new Map<string, { displayName: string; posts: typeof posts }>();
 for (const post of posts) {
   const repo = post.data.repo;
@@ -17,47 +17,39 @@ for (const post of posts) {
   repoMap.get(repo)!.posts.push(post);
 }
 const repoEntries = [...repoMap.entries()];
-
-const repoColors: Record<string, string> = {
-  'Dividend1s': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border-blue-200 dark:border-blue-800',
-  'fitin': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 border-green-200 dark:border-green-800',
-  'SpotPrice': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 border-orange-200 dark:border-orange-800',
-  'lock-bench': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 border-purple-200 dark:border-purple-800',
-};
-const defaultColor = 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-700';
 ---
 
 <BaseLayout title="글 목록 | Commit Blog">
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold mb-2">글 목록</h1>
-    <p class="text-muted">총 {posts.length}개의 포스트</p>
+  <div class="mb-10">
+    <h1 class="text-3xl font-bold tracking-tight mb-2">글 목록</h1>
+    <p class="text-sm text-muted dark:text-muted-dark">총 {posts.length}개의 포스트</p>
   </div>
 
-  <!-- Tab filter bar -->
-  <nav class="flex flex-wrap gap-2 mb-8">
+  <nav class="flex flex-wrap gap-2 mb-12">
     <button
-      class="tab-filter text-sm px-3 py-1.5 rounded-lg border border-border dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ring-2 ring-primary"
+      class="tab-filter text-sm px-3 py-1.5 rounded-md transition-colors font-medium
+             bg-text text-bg dark:bg-text-dark dark:text-bg-dark"
       data-repo="all"
     >
-      전체 <span class="text-muted text-xs">({posts.length})</span>
+      전체 <span class="opacity-50 text-xs ml-0.5">{posts.length}</span>
     </button>
     {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
       <button
-        class={`tab-filter text-sm px-3 py-1.5 rounded-lg border transition-colors ${repoColors[repo] ?? defaultColor}`}
+        class="tab-filter text-sm px-3 py-1.5 rounded-md transition-colors
+               text-muted dark:text-muted-dark hover:text-text dark:hover:text-text-dark
+               hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
         data-repo={repo}
       >
-        {displayName} <span class="opacity-60 text-xs">({repoPosts.length})</span>
+        {displayName} <span class="opacity-50 text-xs ml-0.5">{repoPosts.length}</span>
       </button>
     ))}
   </nav>
 
   {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
-    <section id={repo} class="repo-section mb-10" data-repo={repo}>
-      <div class="flex items-center gap-3 mb-4 pb-2 border-b border-border dark:border-border-dark">
-        <span class={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${(repoColors[repo] ?? defaultColor).split(' border')[0]}`}>
-          {displayName}
-        </span>
-        <span class="text-sm text-muted">{repoPosts.length}개의 포스트</span>
+    <section id={repo} class="repo-section mb-12" data-repo={repo}>
+      <div class="flex items-center gap-3 mb-6">
+        <RepoTag repo={repo} displayName={displayName} />
+        <span class="text-xs text-muted dark:text-muted-dark">{repoPosts.length}개의 포스트</span>
       </div>
       {repoPosts.map((post) => (
         <PostCard
@@ -79,13 +71,19 @@ const defaultColor = 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-
     const tabs = document.querySelectorAll<HTMLButtonElement>('.tab-filter');
     const sections = document.querySelectorAll<HTMLElement>('.repo-section');
 
+    const activeClasses = ['bg-text', 'text-bg', 'dark:bg-text-dark', 'dark:text-bg-dark', 'font-medium'];
+    const inactiveClasses = ['text-muted', 'dark:text-muted-dark'];
+
     tabs.forEach((tab) => {
       tab.addEventListener('click', () => {
         const repo = tab.dataset.repo;
 
-        // Update active state
-        tabs.forEach((t) => t.classList.remove('ring-2', 'ring-primary'));
-        tab.classList.add('ring-2', 'ring-primary');
+        tabs.forEach((t) => {
+          t.classList.remove(...activeClasses);
+          t.classList.add(...inactiveClasses);
+        });
+        tab.classList.remove(...inactiveClasses);
+        tab.classList.add(...activeClasses);
 
         if (repo === 'all') {
           sections.forEach((s) => s.style.display = '');
