@@ -3,7 +3,9 @@
     { "owner": "WindowisPark", "repo": "Dividend1s", "displayName": "배당1초", "groupBy": "context" },
     { "owner": "WindowisPark", "repo": "fitin", "displayName": "FitIn", "groupBy": "context" },
     { "owner": "WindowisPark", "repo": "SpotPrice", "displayName": "SpotPrice", "groupBy": "context" },
-    { "owner": "WindowisPark", "repo": "lock-bench", "displayName": "LockBench", "groupBy": "context" }
+    { "owner": "WindowisPark", "repo": "lock-bench", "displayName": "LockBench", "groupBy": "context" },
+    { "owner": "WindowisPark", "repo": "jobmate", "displayName": "JobMate", "groupBy": "context" },
+    { "owner": "WindowisPark", "repo": "kbo-prediction", "displayName": "KBO Prediction", "groupBy": "context" }
   ],
   "defaults": {
     "groupBy": "context",

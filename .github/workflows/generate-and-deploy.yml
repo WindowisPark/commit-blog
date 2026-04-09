@@ -1,6 +1,8 @@
 name: Generate & Deploy
 
 on:
+  schedule:
+    - cron: '0 0 * * 1' # 매주 월요일 09:00 KST (UTC 00:00)
   push:
     branches: [master]
   workflow_dispatch:
@@ -30,7 +32,7 @@ concurrency:
 
 jobs:
   generate:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +65,7 @@ jobs:
           npx tsx scripts/pipeline.ts $ARGS
 
       - name: Commit generated posts
-        if: inputs.dry_run != 'true'
+        if: github.event_name == 'schedule' || inputs.dry_run != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -72,7 +74,7 @@ jobs:
           git push
 
   deploy:
-    if: always() && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != 'true'))
+    if: always() && (github.event_name == 'push' || github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.dry_run != 'true'))
     needs: [generate]
     runs-on: ubuntu-latest
     environment:

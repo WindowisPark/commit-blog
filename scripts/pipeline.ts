@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { loadConfig, getRepoConfig } from './utils/config.js';
 import { fetchAllCommits } from './fetch-commits.js';
 import { groupCommits, groupCommitsAsync } from './group-commits.js';
