@@ -414,5 +414,63 @@
       "fa8e571202900a06fe7ac67d84bbeb7ad7ab77b6"
     ],
     "generatedAt": "2026-04-09T14:40:44.010Z"
+  },
+  "2026-04-09-lock-bench-distributed-lock-performance": {
+    "shas": [
+      "3ce5fb8e782735915f30326b0290995bae9bdaad",
+      "53f661098c234ec945cd66706b03a51d1fdb5907",
+      "abce317879c4b6ebef302dc963d040abffe95763"
+    ],
+    "generatedAt": "2026-04-13T02:05:20.545Z"
+  },
+  "2026-04-09-lock-bench-experiment-documentation": {
+    "shas": [
+      "615073ad03731b170940aeae8873046e590397e6",
+      "a960d312fb69f4553df05698ad7dd85b169881a9"
+    ],
+    "generatedAt": "2026-04-13T02:06:03.229Z"
+  },
+  "2026-04-12-kbo-prediction-player-matching-system": {
+    "shas": [
+      "3d28842e3d0b40959983c04e532dc7ae736629fe",
+      "4a8b217569c1c9d508e8cb856a7d603c1c4485c5",
+      "f0902b6c20013afae7e84223d88b5b7667c53449"
+    ],
+    "generatedAt": "2026-04-13T02:06:54.990Z"
+  },
+  "2026-04-12-kbo-prediction-ml-model-fixes": {
+    "shas": [
+      "aaa70c445f4a5e0ea56599a92b1e8d94887760ac",
+      "b2f6a7ed18eff0a4eef6948cb98dd42529abecd6"
+    ],
+    "generatedAt": "2026-04-13T02:07:27.939Z"
+  },
+  "2026-04-12-kbo-prediction-daily-batch-system": {
+    "shas": [
+      "077322e26c668e49805be1b4f6471c6b5e66badb",
+      "1c042f42d3482768fbb4a8c25bc25b130b2df5d0",
+      "56d647b3326b8daee40a0ea7800f5144a6909864",
+      "5790325ad00a6ff08946592fb1160c3b088bdf29",
+      "896ebcf9aeec9ff1f8509d27afe9c6ff87fc0875",
+      "9995786ef3c9bdb6065e201b9a5761f85e75ec7f",
+      "9dd7fceb374ca25eaadabcfb49d4a364c995c4ba",
+      "d816c20602f09e8701abeb49f7b0d1281b6895d6"
+    ],
+    "generatedAt": "2026-04-13T02:08:05.425Z"
+  },
+  "2026-04-09-kbo-prediction-llm-reliability": {
+    "shas": [
+      "ed799eab6d664bc706940bafa48e0fe796cb04f0"
+    ],
+    "generatedAt": "2026-04-13T02:08:43.986Z"
+  },
+  "2026-04-09-kbo-prediction-production-deployment": {
+    "shas": [
+      "00b2b58a803c17f8b273578a16d0c6325bed5575",
+      "8bcc1d0be41761d56e26bea00c9ce1d93e3eabaa",
+      "ceea63806c10c1b61b5197ea0d9711e4326dda1c",
+      "e5313dbe8daa5099403fdc86245470b04b861c87"
+    ],
+    "generatedAt": "2026-04-13T02:09:26.403Z"
   }
 }
