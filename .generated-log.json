@@ -472,5 +472,125 @@
       "e5313dbe8daa5099403fdc86245470b04b861c87"
     ],
     "generatedAt": "2026-04-13T02:09:26.403Z"
+  },
+  "2026-04-20-newsroom-ai-ai-draft-generation": {
+    "shas": [
+      "1ecc5682b5e2f70b2d4f00201a421a3829831446",
+      "1fe55f792a99a2dae72d9aadf033a9d2be3de433",
+      "4bcc46567c26973568d6a688bfa8cfad68e76cc6",
+      "54db3fe5657d78f62b39aef5eed4bbd8e3279a61",
+      "781ebb1cf54949eed5fe0008d542d42863a01729",
+      "88de7afa5dcf7641d00a46ca528f4a906dfacce7",
+      "9ac8784012f674bb4675273fa4be5f16021fff7d",
+      "b0fd48dac134ed3478e28350a87aecf241a7e151",
+      "b31db4b59842052cd6b11c8865f2a8e9978eeb5b",
+      "def2113f84d3d89a20cd172288586b5cf62258bc",
+      "eef1535b6dbe768eec428db888f96d780be4ca1a",
+      "f35c3c8708e24a93e52d1db19999ab7a1cdc26eb"
+    ],
+    "generatedAt": "2026-04-28T09:20:12.111Z"
+  },
+  "2026-04-21-newsroom-ai-quality-review-system": {
+    "shas": [
+      "e4800527abf3e7d16d8c80ddef363a55d4a06450",
+      "fc9fa79c7750e845cfde1c020c812a86bee3a285"
+    ],
+    "generatedAt": "2026-04-28T09:20:59.907Z"
+  },
+  "2026-04-19-newsroom-ai-fact-checking-system": {
+    "shas": [
+      "4bcc46567c26973568d6a688bfa8cfad68e76cc6",
+      "f35c3c8708e24a93e52d1db19999ab7a1cdc26eb"
+    ],
+    "generatedAt": "2026-04-28T09:21:44.741Z"
+  },
+  "2026-04-20-newsroom-ai-ui-ux-overhaul": {
+    "shas": [
+      "0ed07698c41f0d1a53f85593f97a0ebf9074164f",
+      "1a4c2efaff42a4e691ef3ea619984255b2d52cff",
+      "380fca87570854e998914f40a071eca9567c5af0",
+      "5050d327df9e96bdb332f789d5236686c41e0eed",
+      "6396f725f4cd63e9d165367ce34f69238fe355e4",
+      "bb484c9c1a569620092d2204f1ae5cac017d38de"
+    ],
+    "generatedAt": "2026-04-28T09:22:30.936Z"
+  },
+  "2026-04-19-newsroom-ai-comprehensive-reporting": {
+    "shas": [
+      "4c7ae7bf6bb0748255716c74975d2e032a0cdacc",
+      "a404303cc69c3b3773ac0df9a09b1cbad83fd187",
+      "c443df23c0cae03128f7e88e942d3ac6ded558b9"
+    ],
+    "generatedAt": "2026-04-28T09:23:19.032Z"
+  },
+  "2026-04-21-newsroom-ai-system-reliability": {
+    "shas": [
+      "091a41596adc48dba759d554f7f3960361ee6419",
+      "0e73866ececc008be0936cc089b478fd0db8c311",
+      "32b945331db877ab94814e69128d48ceb59776e5",
+      "7cd5d997db506c149f5eb1c2ee5921f3786f481b",
+      "8439867f2daafbaf1c765e1710913e2e848f3097",
+      "bdfc7ea09e4cffbeacdfd953eb598fa6a39fdb30",
+      "f89426a7d4a1a8fab6a7589ee2c1ea8f9487b643"
+    ],
+    "generatedAt": "2026-04-28T09:24:01.784Z"
+  },
+  "2026-04-21-newsroom-ai-multilingual-analysis": {
+    "shas": [
+      "215a5a28098bbe05c4981cc335b6e6b5d4dae911",
+      "feb2a1522cc6ab07e149f531d970750b7c12a1af"
+    ],
+    "generatedAt": "2026-04-28T09:24:39.413Z"
+  },
+  "2026-04-21-newsroom-ai-data-visualization": {
+    "shas": [
+      "ec9c1a1c094ef4172c747c58ca5bbad2810b01d6"
+    ],
+    "generatedAt": "2026-04-28T09:25:08.192Z"
+  },
+  "2026-04-20-newsroom-ai-deployment-infrastructure": {
+    "shas": [
+      "3c51cbf170692dfc5dd8267ef5723b695ebfbe43",
+      "518d6fd63c034e704c741e3ece29d949a62a9ca1",
+      "c269a52051ec44379a85b24bd0bed7a58d46f079",
+      "d8fa5c6c1d404c0013ce2ce019279ac8545aaa87"
+    ],
+    "generatedAt": "2026-04-28T09:25:45.037Z"
+  },
+  "2026-04-18-newsroom-ai-pipeline-optimization": {
+    "shas": [
+      "2f04714ba60687d705536eb79198dc195aee58d1",
+      "34fc8513c66efd85d6793a823ce66bb64c1f6ec8",
+      "36e86f0b63d84d341438071aa458cd52604ac27e",
+      "389fcc1aabe8d3c88131198075ca9b9103480d0c",
+      "5d70cded0527b127bd19e1bb799cf735fa4c645d",
+      "8f6302a5be8cc95b227768d427f13d597af96803",
+      "cb6a12f18a63f5d803ae0053a591f4a799ea6cec",
+      "ddee989b83b2927ebd881e51ea5f9aad1ade6e18"
+    ],
+    "generatedAt": "2026-04-28T09:26:32.798Z"
+  },
+  "2026-04-17-newsroom-ai-core-framework": {
+    "shas": [
+      "39e688b73d64418e6e720b92f5e9539bd87bcad3",
+      "5fa33c489d97bde15363ae7da2c083483f3e72cb",
+      "7a43f08b29783bf88079d7f58b3f2c3b749310e9"
+    ],
+    "generatedAt": "2026-04-28T09:27:30.764Z"
+  },
+  "2026-04-21-newsroom-ai-news-classification": {
+    "shas": [
+      "8a820f498c5ded3ca942daca359d0d840cda7754"
+    ],
+    "generatedAt": "2026-04-28T09:27:58.452Z"
+  },
+  "2026-04-21-newsroom-ai-documentation": {
+    "shas": [
+      "4fcac234f6e8570ccf860f01814b2a13829eb630",
+      "6e8dccf011a368436db83cef896541fbbc03ad69",
+      "9d299c1d831c850b1a78c10c6dc7e0b034a36690",
+      "f5050276c15f5b22afba9ab2d4b6c915d2c4d0fa"
+    ],
+    "generatedAt": "2026-04-28T09:29:00.492Z"
   }
 }
