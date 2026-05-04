@@ -44,9 +44,15 @@ export async function groupCommitsByContext(
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const response = await client.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5',
         max_tokens: 2048,
-        system: systemPrompt,
+        system: [
+          {
+            type: 'text',
+            text: systemPrompt,
+            cache_control: { type: 'ephemeral' },
+          },
+        ],
         messages: [
           {
             role: 'user',
@@ -65,8 +71,9 @@ export async function groupCommitsByContext(
 
       const parsed = JSON.parse(jsonMatch[0]) as { groups: ContextGroup[] };
 
+      const u = response.usage;
       console.log(
-        `  [Claude Grouping] Tokens: input=${response.usage.input_tokens}, output=${response.usage.output_tokens}`,
+        `  [Claude Grouping/Haiku] input=${u.input_tokens}, output=${u.output_tokens}, cache_read=${u.cache_read_input_tokens ?? 0}, cache_write=${u.cache_creation_input_tokens ?? 0}`,
       );
 
       return parsed.groups;
@@ -118,9 +125,17 @@ export async function generateBlogPost(
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       const response = await client.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-6',
         max_tokens: 4096,
-        system: systemPrompt,
+        thinking: { type: 'disabled' },
+        output_config: { effort: 'low' },
+        system: [
+          {
+            type: 'text',
+            text: systemPrompt,
+            cache_control: { type: 'ephemeral' },
+          },
+        ],
         messages: [
           {
             role: 'user',
@@ -134,14 +149,14 @@ export async function generateBlogPost(
         .map((block) => block.text)
         .join('');
 
-      // Extract JSON from response (handle markdown code blocks)
       const jsonMatch = text.match(/\{[\s\S]*\}/);
       if (!jsonMatch) throw new Error('No JSON found in response');
 
       const parsed = JSON.parse(jsonMatch[0]) as GeneratedPost;
 
+      const u = response.usage;
       console.log(
-        `  [Claude] Tokens: input=${response.usage.input_tokens}, output=${response.usage.output_tokens}`,
+        `  [Claude Post/Sonnet] input=${u.input_tokens}, output=${u.output_tokens}, cache_read=${u.cache_read_input_tokens ?? 0}, cache_write=${u.cache_creation_input_tokens ?? 0}`,
       );
 
       return parsed;
