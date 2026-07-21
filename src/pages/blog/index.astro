@@ -59,58 +59,70 @@ if (etcRepos.length > 0) {
     <p class="text-sm text-muted dark:text-muted-dark">총 {posts.length}개의 포스트</p>
   </div>
 
-  <!-- 1단: 테마 탭 -->
-  <nav class="flex flex-wrap gap-2 mb-3" aria-label="테마 필터">
-    <button
-      class="theme-tab is-active text-sm px-3 py-1.5 rounded-md transition-colors font-medium
-             bg-text text-bg dark:bg-text-dark dark:text-bg-dark"
-      data-theme="all"
-    >
-      전체 <span class="opacity-50 text-xs ml-0.5">{posts.length}</span>
-    </button>
-    {themes.map((theme) => (
+  <!-- 필터 바 (sticky) -->
+  <div class="sticky top-0 z-10 -mx-6 px-6 pt-3 pb-4 mb-8
+              bg-bg/90 dark:bg-bg-dark/90 backdrop-blur
+              border-b border-border dark:border-border-dark">
+    <!-- 1단: 테마 탭 -->
+    <nav class="flex flex-wrap gap-2 mb-3" aria-label="테마 필터">
       <button
-        class="theme-tab text-sm px-3 py-1.5 rounded-md transition-colors
-               text-muted dark:text-muted-dark hover:text-text dark:hover:text-text-dark
-               hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
-        data-theme={theme.id}
+        class="theme-tab is-active text-sm px-3 py-2 rounded-md transition-colors font-medium
+               bg-text text-bg dark:bg-text-dark dark:text-bg-dark"
+        data-theme="all"
+        aria-pressed="true"
       >
-        {theme.name} <span class="opacity-50 text-xs ml-0.5">{theme.count}</span>
+        전체 <span class="text-[11px] ml-0.5">{posts.length}</span>
       </button>
-    ))}
-  </nav>
-
-  <!-- 2단: 레포 칩 (선택된 테마에 따라 노출) -->
-  <nav class="flex flex-wrap items-center gap-x-2 gap-y-1.5 mb-10 pb-6 border-b border-border dark:border-border-dark" aria-label="레포 필터">
-    <button
-      class="repo-chip is-active text-xs px-2.5 py-1 rounded-full transition-colors font-medium
-             bg-bg-subtle text-text dark:bg-bg-dark-subtle dark:text-text-dark
-             border border-border dark:border-border-dark"
-      data-theme="all"
-      data-repo="all"
-    >
-      모든 레포
-    </button>
-    {themes.flatMap((theme) =>
-      theme.repos.map((r) => (
+      {themes.map((theme) => (
         <button
-          class="repo-chip text-xs px-2.5 py-1 rounded-full transition-colors
-                 text-muted dark:text-muted-dark border border-transparent
-                 hover:text-text dark:hover:text-text-dark hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
+          class="theme-tab text-sm px-3 py-2 rounded-md transition-colors
+                 text-muted dark:text-muted-dark hover:text-text dark:hover:text-text-dark
+                 hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
           data-theme={theme.id}
-          data-repo={r.repo}
+          aria-pressed="false"
         >
-          {r.displayName} <span class="opacity-50 ml-0.5">{r.posts.length}</span>
+          {theme.name} <span class="text-[11px] ml-0.5">{theme.count}</span>
         </button>
-      ))
-    )}
-  </nav>
+      ))}
+    </nav>
+
+    <!-- 2단: 레포 칩 (선택된 테마에 따라 노출) -->
+    <nav class="flex flex-wrap items-center gap-x-2 gap-y-2" aria-label="레포 필터">
+      <button
+        class="repo-chip is-active text-xs px-2.5 py-1.5 min-h-8 rounded-full transition-colors font-medium
+               bg-bg-subtle text-text dark:bg-bg-dark-subtle dark:text-text-dark
+               border border-border dark:border-border-dark"
+        data-theme="all"
+        data-repo="all"
+        aria-pressed="true"
+      >
+        모든 레포
+      </button>
+      {themes.flatMap((theme) =>
+        theme.repos.map((r) => (
+          <button
+            class="repo-chip text-xs px-2.5 py-1.5 min-h-8 rounded-full transition-colors
+                   text-muted dark:text-muted-dark border border-transparent
+                   hover:text-text dark:hover:text-text-dark hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
+            data-theme={theme.id}
+            data-repo={r.repo}
+            aria-pressed="false"
+          >
+            {r.displayName} <span class="text-[11px] ml-0.5">{r.posts.length}</span>
+          </button>
+        ))
+      )}
+    </nav>
+  </div>
+
+  <!-- 필터 결과 안내 (스크린리더용) -->
+  <p id="filter-status" class="sr-only" aria-live="polite"></p>
 
   <!-- 콘텐츠: 테마 > 레포 -->
-  {themes.map((theme) => (
-    <section class="theme-section mb-16" data-theme={theme.id}>
+  {themes.map((theme, i) => (
+    <section class={`theme-section mb-16 ${i > 0 ? 'pt-10 border-t border-border dark:border-border-dark' : ''}`} data-theme={theme.id}>
       <div class="mb-8">
-        <h2 class="text-xl font-bold tracking-tight">{theme.name}</h2>
+        <h2 class="text-2xl font-bold tracking-tight">{theme.name}</h2>
         {theme.description && (
           <p class="text-sm text-muted dark:text-muted-dark mt-1">{theme.description}</p>
         )}
@@ -139,6 +151,7 @@ if (etcRepos.length > 0) {
                     repoDisplayName={post.data.repoDisplayName}
                     tags={post.data.tags}
                     slug={post.id}
+                    headingLevel="h3"
                   />
                 ))}
               </div>
@@ -158,6 +171,7 @@ if (etcRepos.length > 0) {
                   repoDisplayName={post.data.repoDisplayName}
                   tags={post.data.tags}
                   slug={post.id}
+                  headingLevel="h3"
                 />
               ))}
             </>
@@ -174,9 +188,23 @@ if (etcRepos.length > 0) {
     const repoChips = document.querySelectorAll<HTMLButtonElement>('.repo-chip');
     const themeSections = document.querySelectorAll<HTMLElement>('.theme-section');
     const repoBlocks = document.querySelectorAll<HTMLElement>('.repo-block');
+    const statusEl = document.getElementById('filter-status');
 
-    let activeTheme = 'all';
-    let activeRepo = 'all';
+    // URL에서 초기 필터 상태 복원 (?theme=ai&repo=jobmate)
+    const params = new URLSearchParams(location.search);
+    let activeTheme = params.get('theme') ?? 'all';
+    let activeRepo = params.get('repo') ?? 'all';
+
+    // 유효성 검사: 존재하지 않는 값이면 all로
+    const validThemes = new Set(['all', ...[...themeSections].map((s) => s.dataset.theme)]);
+    const validRepos = new Set(['all', ...[...repoBlocks].map((b) => b.dataset.repo)]);
+    if (!validThemes.has(activeTheme)) activeTheme = 'all';
+    if (!validRepos.has(activeRepo)) activeRepo = 'all';
+    // repo가 지정됐으면 테마도 그 레포의 테마로 정렬
+    if (activeRepo !== 'all') {
+      const block = [...repoBlocks].find((b) => b.dataset.repo === activeRepo);
+      if (block?.dataset.theme) activeTheme = block.dataset.theme;
+    }
 
     const setTabActive = (el: HTMLElement, on: boolean) => {
       el.classList.toggle('is-active', on);
@@ -187,6 +215,7 @@ if (etcRepos.length > 0) {
       el.classList.toggle('font-medium', on);
       el.classList.toggle('text-muted', !on);
       el.classList.toggle('dark:text-muted-dark', !on);
+      el.setAttribute('aria-pressed', String(on));
     };
 
     const setChipActive = (el: HTMLElement, on: boolean) => {
@@ -201,9 +230,19 @@ if (etcRepos.length > 0) {
       el.classList.toggle('border-transparent', !on);
       el.classList.toggle('text-muted', !on);
       el.classList.toggle('dark:text-muted-dark', !on);
+      el.setAttribute('aria-pressed', String(on));
     };
 
+    function syncURL() {
+      const p = new URLSearchParams();
+      if (activeTheme !== 'all') p.set('theme', activeTheme);
+      if (activeRepo !== 'all') p.set('repo', activeRepo);
+      const qs = p.toString();
+      history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+    }
+
     function render() {
+      let visiblePosts = 0;
       themeSections.forEach((s) => {
         s.hidden = !(activeTheme === 'all' || s.dataset.theme === activeTheme);
       });
@@ -211,6 +250,15 @@ if (etcRepos.length > 0) {
         const themeOk = activeTheme === 'all' || b.dataset.theme === activeTheme;
         const repoOk = activeRepo === 'all' || b.dataset.repo === activeRepo;
         b.hidden = !(themeOk && repoOk);
+
+        // 접힌(minor) 레포라도 필터로 직접 겨냥되면 자동으로 펼친다
+        const details = b.querySelector('details');
+        if (details) {
+          if (activeRepo === b.dataset.repo) details.open = true;
+          else if (activeTheme === b.dataset.theme && activeTheme !== 'all' && activeRepo === 'all') details.open = true;
+        }
+
+        if (!b.hidden) visiblePosts += b.querySelectorAll('article').length;
       });
       // 레포 칩: 선택된 테마의 칩만 노출('모든 레포'는 항상)
       repoChips.forEach((chip) => {
@@ -219,6 +267,9 @@ if (etcRepos.length > 0) {
       });
       themeTabs.forEach((t) => setTabActive(t, t.dataset.theme === activeTheme));
       repoChips.forEach((c) => setChipActive(c, c.dataset.repo === activeRepo));
+
+      if (statusEl) statusEl.textContent = `${visiblePosts}개의 포스트 표시 중`;
+      syncURL();
     }
 
     themeTabs.forEach((tab) => {
@@ -243,5 +294,4 @@ if (etcRepos.length > 0) {
     render();
   }
   initCategoryFilter();
-  document.addEventListener('astro:after-swap', initCategoryFilter);
 </script>

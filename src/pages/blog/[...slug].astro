@@ -31,32 +31,35 @@ const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
-const formattedDate = post.data.pubDate.toLocaleDateString('ko-KR', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+// 한글+mono 혼합 렌더를 피하기 위해 숫자 포맷 사용 (예: 2026.04.09)
+const formattedDate = post.data.pubDate.toISOString().slice(0, 10).replaceAll('-', '.');
+const repoName = post.data.repoDisplayName ?? post.data.repo;
+const repoFilterURL = `${base}blog/?repo=${encodeURIComponent(post.data.repo)}`;
 ---
 
 <BaseLayout title={`${post.data.title} | Commit Blog`} description={post.data.description}>
-  <nav class="text-xs text-muted dark:text-muted-dark mb-8 flex items-center gap-1.5 font-mono">
+  <nav aria-label="브레드크럼" class="text-xs text-muted dark:text-muted-dark mb-8 flex items-center gap-1.5 font-mono">
     <a href={base} class="hover:text-text dark:hover:text-text-dark transition-colors">홈</a>
-    <span class="opacity-40">/</span>
+    <span class="opacity-40" aria-hidden="true">/</span>
     <a href={`${base}blog`} class="hover:text-text dark:hover:text-text-dark transition-colors">글 목록</a>
-    <span class="opacity-40">/</span>
-    <span class="text-text dark:text-text-dark">{post.data.repoDisplayName ?? post.data.repo}</span>
+    <span class="opacity-40" aria-hidden="true">/</span>
+    <a href={repoFilterURL} class="hover:text-text dark:hover:text-text-dark transition-colors">{repoName}</a>
+    <span class="opacity-40" aria-hidden="true">/</span>
+    <span aria-current="page" class="text-text dark:text-text-dark truncate max-w-[40vw] sm:max-w-xs">{post.data.title}</span>
   </nav>
 
   <article>
     <header class="mb-12">
       <div class="flex items-center gap-3 mb-4">
-        <RepoTag repo={post.data.repo} displayName={post.data.repoDisplayName} />
+        <a href={repoFilterURL} class="hover:opacity-70 transition-opacity" aria-label={`${repoName} 글 목록 보기`}>
+          <RepoTag repo={post.data.repo} displayName={post.data.repoDisplayName} />
+        </a>
         <time class="text-xs text-muted dark:text-muted-dark font-mono">{formattedDate}</time>
       </div>
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">{post.data.title}</h1>
       <p class="text-muted dark:text-muted-dark text-lg leading-relaxed">{post.data.description}</p>
       {post.data.tags.length > 0 && (
-        <div class="flex gap-2 mt-4">
+        <div class="flex flex-wrap gap-2 mt-4">
           {post.data.tags.map((tag: string) => (
             <a
               href={`${base}tags/${tag}`}
@@ -100,5 +103,5 @@ const formattedDate = post.data.pubDate.toLocaleDateString('ko-KR', {
     )}
   </article>
 
-  <PostNav prevPost={prevPost} nextPost={nextPost} />
+  <PostNav prevPost={prevPost} nextPost={nextPost} repoName={repoName} />
 </BaseLayout>

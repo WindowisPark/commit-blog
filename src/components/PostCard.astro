@@ -9,15 +9,15 @@ interface Props {
   repoDisplayName?: string;
   tags: string[];
   slug: string;
+  /** 카드 제목의 헤딩 레벨 — 상위에 섹션 헤딩(h2)이 있는 목록에서는 'h3' 전달 */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { title, description, pubDate, repo, repoDisplayName, tags, slug } = Astro.props;
+const { title, description, pubDate, repo, repoDisplayName, tags, slug, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
-const formattedDate = pubDate.toLocaleDateString('ko-KR', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+// 한글+mono 혼합 렌더를 피하기 위해 숫자 포맷 사용 (예: 2026.04.09)
+const formattedDate = pubDate.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
 
 <article class="group py-6">
@@ -27,14 +27,14 @@ const formattedDate = pubDate.toLocaleDateString('ko-KR', {
       <RepoTag repo={repo} displayName={repoDisplayName} />
       <time class="text-xs text-muted dark:text-muted-dark font-mono">{formattedDate}</time>
     </div>
-    <h2 class="text-lg font-semibold tracking-tight mb-1.5
+    <Heading class="text-lg font-semibold tracking-tight mb-1.5
                group-hover:text-accent dark:group-hover:text-accent-dark transition-colors duration-200">
       {title}
-    </h2>
+    </Heading>
     <p class="text-sm text-muted dark:text-muted-dark leading-relaxed line-clamp-2">{description}</p>
   </a>
   {tags.length > 0 && (
-    <div class="flex gap-2 mt-2">
+    <div class="flex flex-wrap gap-2 mt-2">
       {tags.map((tag) => (
         <a
           href={`${base}tags/${tag}`}

@@ -8,6 +8,7 @@ interface Props {
 
 const { title, description = '커밋 기록에서 자동 생성된 개발 블로그' } = Astro.props;
 const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + '/';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <html lang="ko">
@@ -17,32 +18,52 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        rel="stylesheet"
+      />
+    </noscript>
     <title>{title}</title>
   </head>
   <body class="min-h-screen flex flex-col">
+    <a href="#main"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50
+              focus:px-3 focus:py-2 focus:rounded-md focus:bg-text focus:text-bg
+              dark:focus:bg-text-dark dark:focus:text-bg-dark text-sm">
+      본문 바로가기
+    </a>
     <header>
-      <nav class="max-w-2xl mx-auto px-6 py-6 flex items-center justify-between">
-        <a href={base} class="text-base font-semibold tracking-tight hover:opacity-70 transition-opacity">
+      <nav class="max-w-2xl mx-auto px-6 py-6 flex items-center justify-between gap-3">
+        <a href={base} class="text-base font-semibold tracking-tight hover:opacity-70 transition-opacity whitespace-nowrap">
           Commit Blog
         </a>
-        <div class="flex gap-6 text-sm text-muted dark:text-muted-dark">
-          <a href={base} class="hover:text-text dark:hover:text-text-dark transition-colors">홈</a>
-          <a href={`${base}blog`} class="hover:text-text dark:hover:text-text-dark transition-colors">글 목록</a>
-          <a href={`${base}about`} class="hover:text-text dark:hover:text-text-dark transition-colors">소개</a>
+        <div class="flex gap-3 sm:gap-6 text-sm text-muted dark:text-muted-dark">
+          <a href={base} class="hover:text-text dark:hover:text-text-dark transition-colors whitespace-nowrap">홈</a>
+          <a href={`${base}blog`} class="hover:text-text dark:hover:text-text-dark transition-colors whitespace-nowrap">글 목록</a>
+          <a href={`${base}about`} class="hover:text-text dark:hover:text-text-dark transition-colors whitespace-nowrap">소개</a>
           <a href="https://windowispark.github.io/" target="_blank" rel="noopener noreferrer"
-             class="hover:text-text dark:hover:text-text-dark transition-colors">
+             class="hidden sm:inline hover:text-text dark:hover:text-text-dark transition-colors whitespace-nowrap">
             포트폴리오 <span class="inline-block text-[10px] opacity-50">↗</span>
           </a>
         </div>
       </nav>
     </header>
 
-    <main class="flex-1 mx-auto px-6 py-16 w-full max-w-2xl">
+    <main id="main" class="flex-1 mx-auto px-6 py-16 w-full max-w-2xl">
       <slot />
     </main>
 
