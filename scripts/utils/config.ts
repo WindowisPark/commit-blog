@@ -8,6 +8,10 @@ const RepoSchema = z.object({
   displayName: z.string(),
   groupBy: z.enum(['date', 'pr', 'branch', 'context']).optional(),
   excludePaths: z.array(z.string()).optional(),
+  // 글목록 카테고리(테마) 배정 — 블로그 렌더링용. 생성 파이프라인은 사용하지 않음.
+  category: z.string().optional(),
+  // 저활동 레포 표시(접힘) — 블로그 렌더링용.
+  minor: z.boolean().optional(),
 });
 
 const DefaultsSchema = z.object({

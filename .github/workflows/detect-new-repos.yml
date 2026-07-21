@@ -1,0 +1,25 @@
+name: Detect New Repos
+
+on:
+  schedule:
+    - cron: '0 23 * * 0' # 매주 월요일 08:00 KST (UTC 일 23:00) — 글 생성(월 09:00) 1시간 전
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Detect unregistered active repos
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: node scripts/detect-candidates.mjs
