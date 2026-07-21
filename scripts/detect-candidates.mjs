@@ -15,7 +15,8 @@ import { resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 
 // ── 도입 판정 기준 ───────────────────────────────────────────────
-const ACTIVE_DAYS = 90; // 최근 N일 내 push가 있어야 후보
+// 최근 N일 내 push가 있어야 후보 (env ACTIVE_DAYS로 조정 가능)
+const ACTIVE_DAYS = Number(process.env.ACTIVE_DAYS) || 90;
 const LABEL = 'repo-candidate';
 // 블로그 소스가 될 수 없는 레포(포트폴리오/프로필/블로그 자신 등)는 제외
 const IGNORE = new Set(['commit-blog', 'windowispark', 'windowispark.github.io']);
