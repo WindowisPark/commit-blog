@@ -592,5 +592,78 @@
       "f5050276c15f5b22afba9ab2d4b6c915d2c4d0fa"
     ],
     "generatedAt": "2026-04-28T09:29:00.492Z"
+  },
+  "2026-07-20-saju-mbti-report-rebrand-v2-complete": {
+    "shas": [
+      "2500c8659716d2773f69c086a77f14f85b386143",
+      "3a93d2e25e98572edce6f0fe57fc33beac13065d",
+      "506e0af21dd7b10ff943baa5e7a430986c309568",
+      "6f2e54d0102b6ae1515d5cb4d8b1fff5a42210ff",
+      "83ae9649609b99555b1a80a02419f3cb81b1245a",
+      "a482c3da206ca5916b26f4994aaf37bbc88e2d61",
+      "cf19792404a209f10f6f8d83eaeacbcb774ec5cc",
+      "e2d23ac31d314f0a008db8367bd02cc3f70cab22"
+    ],
+    "generatedAt": "2026-07-21T08:31:37.790Z"
+  },
+  "2026-07-20-saju-mbti-report-character-design-system": {
+    "shas": [
+      "52d9d918732743b644868bba9325473a5b5b1e3e"
+    ],
+    "generatedAt": "2026-07-21T08:32:22.589Z"
+  },
+  "2026-07-18-saju-mbti-report-llm-quality-reliability": {
+    "shas": [
+      "34881eebb7acfd55fcf4cc9bf2a2015a4d0f7e41",
+      "a24254f1813d505dd8ad916919e2f09fd952b25a",
+      "b668a7176315962172a4ea4d364e190185b847d6"
+    ],
+    "generatedAt": "2026-07-21T08:33:09.131Z"
+  },
+  "2026-07-18-saju-mbti-report-payment-security": {
+    "shas": [
+      "25900eaf9e3d73b1f8b2f34f23b15f9d78fbebd7",
+      "58ea87c19e435506301e44250d84db21f6a2915c",
+      "82849592360b28d5aeffd712f45a6f9978cb882a",
+      "897db692c3e35ba0b6f6fa87a6a03734d5ee452a",
+      "90fa8186983ca893fed7ae3bb325de0848226441",
+      "a44742b8a7054ca4a13ae11a2030df24434dd277",
+      "d9ea55427b47113c214d1749edf1b53a5964a7b4",
+      "e8abbd5be6630dce5b1caa2c214d43025f71745c"
+    ],
+    "generatedAt": "2026-07-21T08:33:59.296Z"
+  },
+  "2026-07-18-saju-mbti-report-modal-toast-ux": {
+    "shas": [
+      "140ff5b8f7a5c312abf4649479010d09b2b8aa0b"
+    ],
+    "generatedAt": "2026-07-21T08:34:36.468Z"
+  },
+  "2026-07-18-saju-mbti-report-mobile-form-ux": {
+    "shas": [
+      "20569faab3167d3f6a8a1cc837dd2f209e985a38"
+    ],
+    "generatedAt": "2026-07-21T08:35:16.576Z"
+  },
+  "2026-07-20-saju-mbti-report-mbti-input-flow": {
+    "shas": [
+      "a482c3da206ca5916b26f4994aaf37bbc88e2d61"
+    ],
+    "generatedAt": "2026-07-21T08:35:55.908Z"
+  },
+  "2026-07-15-saju-mbti-report-brand-voice-copywriting": {
+    "shas": [
+      "1ed434631f4457e1d59aceed1a09df569b936dea",
+      "78e3d965d3abb8441947024d34e9eedfd4e4e900"
+    ],
+    "generatedAt": "2026-07-21T08:36:45.198Z"
+  },
+  "2026-07-15-saju-mbti-report-wait-state-ux": {
+    "shas": [
+      "37631ac84323cd0f18e65628719efc97317201d8",
+      "d35c3d683d95303104f6ae1763d0f9d192d42fbb",
+      "d6e1962a1a2da07a89f2fde1000dedb477700bd8"
+    ],
+    "generatedAt": "2026-07-21T08:37:19.677Z"
   }
 }
