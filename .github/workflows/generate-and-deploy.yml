@@ -81,7 +81,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # ref: master — generate job이 런 도중 푸시한 새 글까지 포함해 빌드
+      # (기본값은 런 시작 시점 SHA라 방금 생성된 글이 배포에서 빠짐)
       - uses: actions/checkout@v4
+        with:
+          ref: master
 
       - uses: actions/setup-node@v4
         with:
