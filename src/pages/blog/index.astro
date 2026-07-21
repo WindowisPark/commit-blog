@@ -3,11 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import RepoTag from '../../components/RepoTag.astro';
 import { getCollection } from 'astro:content';
+import { categories, minorRepos, UNCATEGORIZED_ID } from '../../config/categories';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
+// repo id -> { displayName, posts }
 const repoMap = new Map<string, { displayName: string; posts: typeof posts }>();
 for (const post of posts) {
   const repo = post.data.repo;
@@ -16,85 +18,230 @@ for (const post of posts) {
   }
   repoMap.get(repo)!.posts.push(post);
 }
-const repoEntries = [...repoMap.entries()];
+
+const minorSet = new Set(minorRepos);
+
+interface RepoGroup { repo: string; displayName: string; posts: typeof posts; minor: boolean }
+interface ThemeGroup { id: string; name: string; description?: string; repos: RepoGroup[]; count: number }
+
+// 로드맵 테마별로 레포 그룹 조립
+const themes: ThemeGroup[] = categories.map((cat) => {
+  const repos: RepoGroup[] = cat.repos
+    .filter((r) => repoMap.has(r))
+    .map((r) => ({ repo: r, ...repoMap.get(r)!, minor: minorSet.has(r) }));
+  return {
+    id: cat.id,
+    name: cat.name,
+    description: cat.description,
+    repos,
+    count: repos.reduce((n, r) => n + r.posts.length, 0),
+  };
+}).filter((t) => t.repos.length > 0);
+
+// categories에 등록되지 않은 레포 → '기타' 테마로 수집
+const known = new Set(categories.flatMap((c) => c.repos));
+const etcRepos: RepoGroup[] = [...repoMap.entries()]
+  .filter(([r]) => !known.has(r))
+  .map(([repo, v]) => ({ repo, displayName: v.displayName, posts: v.posts, minor: minorSet.has(repo) }));
+if (etcRepos.length > 0) {
+  themes.push({
+    id: UNCATEGORIZED_ID,
+    name: '기타',
+    repos: etcRepos,
+    count: etcRepos.reduce((n, r) => n + r.posts.length, 0),
+  });
+}
 ---
 
 <BaseLayout title="글 목록 | Commit Blog">
-  <div class="mb-10">
+  <div class="mb-8">
     <h1 class="text-3xl font-bold tracking-tight mb-2">글 목록</h1>
     <p class="text-sm text-muted dark:text-muted-dark">총 {posts.length}개의 포스트</p>
   </div>
 
-  <nav class="flex flex-wrap gap-2 mb-12">
+  <!-- 1단: 테마 탭 -->
+  <nav class="flex flex-wrap gap-2 mb-3" aria-label="테마 필터">
     <button
-      class="tab-filter text-sm px-3 py-1.5 rounded-md transition-colors font-medium
+      class="theme-tab is-active text-sm px-3 py-1.5 rounded-md transition-colors font-medium
              bg-text text-bg dark:bg-text-dark dark:text-bg-dark"
-      data-repo="all"
+      data-theme="all"
     >
       전체 <span class="opacity-50 text-xs ml-0.5">{posts.length}</span>
     </button>
-    {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
+    {themes.map((theme) => (
       <button
-        class="tab-filter text-sm px-3 py-1.5 rounded-md transition-colors
+        class="theme-tab text-sm px-3 py-1.5 rounded-md transition-colors
                text-muted dark:text-muted-dark hover:text-text dark:hover:text-text-dark
                hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
-        data-repo={repo}
+        data-theme={theme.id}
       >
-        {displayName} <span class="opacity-50 text-xs ml-0.5">{repoPosts.length}</span>
+        {theme.name} <span class="opacity-50 text-xs ml-0.5">{theme.count}</span>
       </button>
     ))}
   </nav>
 
-  {repoEntries.map(([repo, { displayName, posts: repoPosts }]) => (
-    <section id={repo} class="repo-section mb-12" data-repo={repo}>
-      <div class="flex items-center gap-3 mb-6">
-        <RepoTag repo={repo} displayName={displayName} />
-        <span class="text-xs text-muted dark:text-muted-dark">{repoPosts.length}개의 포스트</span>
+  <!-- 2단: 레포 칩 (선택된 테마에 따라 노출) -->
+  <nav class="flex flex-wrap items-center gap-x-2 gap-y-1.5 mb-10 pb-6 border-b border-border dark:border-border-dark" aria-label="레포 필터">
+    <button
+      class="repo-chip is-active text-xs px-2.5 py-1 rounded-full transition-colors font-medium
+             bg-bg-subtle text-text dark:bg-bg-dark-subtle dark:text-text-dark
+             border border-border dark:border-border-dark"
+      data-theme="all"
+      data-repo="all"
+    >
+      모든 레포
+    </button>
+    {themes.flatMap((theme) =>
+      theme.repos.map((r) => (
+        <button
+          class="repo-chip text-xs px-2.5 py-1 rounded-full transition-colors
+                 text-muted dark:text-muted-dark border border-transparent
+                 hover:text-text dark:hover:text-text-dark hover:bg-bg-subtle dark:hover:bg-bg-dark-subtle"
+          data-theme={theme.id}
+          data-repo={r.repo}
+        >
+          {r.displayName} <span class="opacity-50 ml-0.5">{r.posts.length}</span>
+        </button>
+      ))
+    )}
+  </nav>
+
+  <!-- 콘텐츠: 테마 > 레포 -->
+  {themes.map((theme) => (
+    <section class="theme-section mb-16" data-theme={theme.id}>
+      <div class="mb-8">
+        <h2 class="text-xl font-bold tracking-tight">{theme.name}</h2>
+        {theme.description && (
+          <p class="text-sm text-muted dark:text-muted-dark mt-1">{theme.description}</p>
+        )}
       </div>
-      {repoPosts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          repo={post.data.repo}
-          repoDisplayName={post.data.repoDisplayName}
-          tags={post.data.tags}
-          slug={post.id}
-        />
+
+      {theme.repos.map((r) => (
+        <div class="repo-block mb-10" data-theme={theme.id} data-repo={r.repo}>
+          {r.minor ? (
+            <details class="group/details">
+              <summary class="flex items-center gap-3 mb-2 cursor-pointer list-none select-none
+                              text-muted dark:text-muted-dark hover:text-text dark:hover:text-text-dark transition-colors">
+                <svg class="w-3.5 h-3.5 shrink-0 transition-transform group-open/details:rotate-90"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <RepoTag repo={r.repo} displayName={r.displayName} />
+                <span class="text-xs">{r.posts.length}개의 포스트</span>
+              </summary>
+              <div class="pt-2 pl-6">
+                {r.posts.map((post) => (
+                  <PostCard
+                    title={post.data.title}
+                    description={post.data.description}
+                    pubDate={post.data.pubDate}
+                    repo={post.data.repo}
+                    repoDisplayName={post.data.repoDisplayName}
+                    tags={post.data.tags}
+                    slug={post.id}
+                  />
+                ))}
+              </div>
+            </details>
+          ) : (
+            <>
+              <div class="flex items-center gap-3 mb-4">
+                <RepoTag repo={r.repo} displayName={r.displayName} />
+                <span class="text-xs text-muted dark:text-muted-dark">{r.posts.length}개의 포스트</span>
+              </div>
+              {r.posts.map((post) => (
+                <PostCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  pubDate={post.data.pubDate}
+                  repo={post.data.repo}
+                  repoDisplayName={post.data.repoDisplayName}
+                  tags={post.data.tags}
+                  slug={post.id}
+                />
+              ))}
+            </>
+          )}
+        </div>
       ))}
     </section>
   ))}
 </BaseLayout>
 
 <script>
-  function initTabFilter() {
-    const tabs = document.querySelectorAll<HTMLButtonElement>('.tab-filter');
-    const sections = document.querySelectorAll<HTMLElement>('.repo-section');
+  function initCategoryFilter() {
+    const themeTabs = document.querySelectorAll<HTMLButtonElement>('.theme-tab');
+    const repoChips = document.querySelectorAll<HTMLButtonElement>('.repo-chip');
+    const themeSections = document.querySelectorAll<HTMLElement>('.theme-section');
+    const repoBlocks = document.querySelectorAll<HTMLElement>('.repo-block');
 
-    const activeClasses = ['bg-text', 'text-bg', 'dark:bg-text-dark', 'dark:text-bg-dark', 'font-medium'];
-    const inactiveClasses = ['text-muted', 'dark:text-muted-dark'];
+    let activeTheme = 'all';
+    let activeRepo = 'all';
 
-    tabs.forEach((tab) => {
+    const setTabActive = (el: HTMLElement, on: boolean) => {
+      el.classList.toggle('is-active', on);
+      el.classList.toggle('bg-text', on);
+      el.classList.toggle('text-bg', on);
+      el.classList.toggle('dark:bg-text-dark', on);
+      el.classList.toggle('dark:text-bg-dark', on);
+      el.classList.toggle('font-medium', on);
+      el.classList.toggle('text-muted', !on);
+      el.classList.toggle('dark:text-muted-dark', !on);
+    };
+
+    const setChipActive = (el: HTMLElement, on: boolean) => {
+      el.classList.toggle('is-active', on);
+      el.classList.toggle('bg-bg-subtle', on);
+      el.classList.toggle('dark:bg-bg-dark-subtle', on);
+      el.classList.toggle('text-text', on);
+      el.classList.toggle('dark:text-text-dark', on);
+      el.classList.toggle('font-medium', on);
+      el.classList.toggle('border-border', on);
+      el.classList.toggle('dark:border-border-dark', on);
+      el.classList.toggle('border-transparent', !on);
+      el.classList.toggle('text-muted', !on);
+      el.classList.toggle('dark:text-muted-dark', !on);
+    };
+
+    function render() {
+      themeSections.forEach((s) => {
+        s.hidden = !(activeTheme === 'all' || s.dataset.theme === activeTheme);
+      });
+      repoBlocks.forEach((b) => {
+        const themeOk = activeTheme === 'all' || b.dataset.theme === activeTheme;
+        const repoOk = activeRepo === 'all' || b.dataset.repo === activeRepo;
+        b.hidden = !(themeOk && repoOk);
+      });
+      // 레포 칩: 선택된 테마의 칩만 노출('모든 레포'는 항상)
+      repoChips.forEach((chip) => {
+        const chipTheme = chip.dataset.theme;
+        chip.hidden = !(chipTheme === 'all' || activeTheme === 'all' || chipTheme === activeTheme);
+      });
+      themeTabs.forEach((t) => setTabActive(t, t.dataset.theme === activeTheme));
+      repoChips.forEach((c) => setChipActive(c, c.dataset.repo === activeRepo));
+    }
+
+    themeTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
-        const repo = tab.dataset.repo;
-
-        tabs.forEach((t) => {
-          t.classList.remove(...activeClasses);
-          t.classList.add(...inactiveClasses);
-        });
-        tab.classList.remove(...inactiveClasses);
-        tab.classList.add(...activeClasses);
-
-        if (repo === 'all') {
-          sections.forEach((s) => s.style.display = '');
-        } else {
-          sections.forEach((s) => {
-            s.style.display = s.dataset.repo === repo ? '' : 'none';
-          });
-        }
+        activeTheme = tab.dataset.theme ?? 'all';
+        activeRepo = 'all'; // 테마 변경 시 레포 필터 초기화
+        render();
       });
     });
+
+    repoChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        activeRepo = chip.dataset.repo ?? 'all';
+        // 특정 레포 선택 시, 해당 레포의 테마도 함께 활성화
+        if (activeRepo !== 'all' && chip.dataset.theme && chip.dataset.theme !== 'all') {
+          activeTheme = chip.dataset.theme;
+        }
+        render();
+      });
+    });
+
+    render();
   }
-  initTabFilter();
-  document.addEventListener('astro:after-swap', initTabFilter);
+  initCategoryFilter();
+  document.addEventListener('astro:after-swap', initCategoryFilter);
 </script>
