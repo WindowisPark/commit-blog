@@ -5,6 +5,7 @@
     { "owner": "WindowisPark", "repo": "jobmate", "displayName": "JobMate", "groupBy": "context", "category": "ai" },
     { "owner": "WindowisPark", "repo": "kbo-prediction", "displayName": "KBO Prediction", "groupBy": "context", "category": "ai" },
     { "owner": "WindowisPark", "repo": "newsroom-ai", "displayName": "Newsroom AI", "groupBy": "context", "category": "ai" },
+    { "owner": "WindowisPark", "repo": "saju-mbti-report", "displayName": "사주 MBTI 리포트", "groupBy": "context", "category": "product" },
     { "owner": "WindowisPark", "repo": "fitin", "displayName": "FitIn", "groupBy": "context", "category": "product", "minor": true },
     { "owner": "WindowisPark", "repo": "Dividend1s", "displayName": "배당1초", "groupBy": "context", "category": "product", "minor": true }
   ],
